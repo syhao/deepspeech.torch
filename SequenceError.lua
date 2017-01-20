@@ -25,12 +25,23 @@ function SequenceError:sequenceErrorRate(target, prediction)
             end
         end
     end
+    -- print(d[#target + 1][#prediction + 1])
     local errorRate = d[#target + 1][#prediction + 1] / #target
     return errorRate
 end
 
 function SequenceError:calculateCER(targetTranscript, predictTranscript)
-    return self:sequenceErrorRate(targetTranscript, predictTranscript)
+    target_char={}
+    predict_char={}
+    for i=1, #targetTranscript do
+        local character = targetTranscript:sub(i, i)
+        table.insert(target_char,character)
+    end
+    for i=1,#predictTranscript  do
+        local character = predictTranscript:sub(i, i)
+        table.insert(predict_char,character)
+    end
+    return self:sequenceErrorRate(target_char, predict_char)
 end
 
 function SequenceError:calculateWER(targetTranscript, predictTranscript)
